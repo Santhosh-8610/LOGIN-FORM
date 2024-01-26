@@ -1,0 +1,39 @@
+var loginService = require('./loginService');
+
+var createcontrollerFn = async (req, res) => 
+{
+    try
+    {
+    console.log(req.body);
+    var status = await service.createloginDBService(req.body);
+    console.log(status);
+
+    if (status) {
+        res.send({ "status": true, "message": "login created successfully" });
+    } else {
+        res.send({ "status": false, "message": "Error creating user" });
+    }
+}
+catch(err)
+{
+    console.log(err);
+}
+}
+
+var logincontrollerFn = async (req, res) => {
+    var result = null;
+    try {
+        result = await loginService.loginDBService(req.body);
+        if (result.status) {
+            res.send({ "status": true, "message": result.msg });
+        } else {
+            res.send({ "status": false, "message": result.msg });
+        }
+
+    } catch (error) {
+        console.log(error);
+        res.send({ "status": false, "message": error.msg });
+    }
+}
+
+module.exports = { createlogincontrollerFn,loginControllerFn };

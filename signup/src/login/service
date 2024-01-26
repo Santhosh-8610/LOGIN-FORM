@@ -1,0 +1,67 @@
+const { models } = require('mongoose');
+var studentmodel = require('./models');
+var key = '123456789trytryrtyr';
+var encryptor = require('simple-encryptor')(key);
+
+module.exports.createloginDBService = (loginDetails) => {
+
+
+   return new Promise(function myFn(resolve, reject) {
+
+       var modelsData = new models();
+
+       modelsData.firstname = loginDetails.firstname;
+       modelsData.lastname = loginDetails.lastname;
+       modelsData.email = loginDetails.email;
+       modelsData.password = loginDetails.password;
+       var encrypted = encryptor.encrypt(loginDetails.password);
+       modelsData.password = encrypted;
+
+       modelData.save(function resultHandle(error, result) {
+
+           if (error) {
+               reject(false);
+           } else {
+               resolve(true);
+           }
+       });
+
+   });
+
+}
+module.exports.loginDBService = (loginDetails)=> 
+{
+   return new Promise(function myFn(resolve, reject) 
+   {
+      loginmodels.findOne({ email: loginDetails.email},function getresult(errorvalue, result)
+      {
+         if(errorvalue)
+         {
+            reject({status: false, msg: "Invaild Data"});
+         }
+         else
+         {
+            if(result !=undefined &&  result !=null)
+            {
+               var decrypted = encryptor.decrypt(result.password);
+
+               if(decrypted== loginDetails.password)
+               {
+                  resolve({status: true,msg: "login Validated Successfully"});
+               }
+               else
+               {
+                  reject({status: false,msg: "login Validated failed"});
+               }
+            }
+            else
+            {
+               reject({status: false,msg: "login Error Detailssss"});
+            }
+
+         }
+      
+      });
+      
+   });
+}

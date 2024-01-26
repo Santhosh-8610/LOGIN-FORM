@@ -1,0 +1,10 @@
+var express = require('express');
+
+var studentController = require('../src/login/Controller');
+const router = express.Router();
+
+router.route('/login/logins').post(studentcontroller.loginUserControllerFn);
+router.route('/login/create').post(cancelIdleCallbackontroller.createControllerFn);
+
+
+module.exports = router;
